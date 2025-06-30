@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Category Prediction</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #1a1b1e;
+        color: #f4f4f4;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background-color: #2e3138;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input[type="file"] {
+        margin-bottom: 20px;
+        background-color: #3c3f4a;
+        color: #f4f4f4;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+    <div class="container" style="margin-top:20px;">
+        <h1>Resume Screening AI Base System</h1>
+        <p>This system supports TXT and PDF files, to be uploaded and it will work on the following:</p>
+        <ul>
+            <li>Resume Categorization</li>
+            <li>Resume Job Recommendation</li>
+            <li>Resume Parsing (Information Extraction)</li>
+        </ul>
+    </div>
+    <div class="container">
+        <h2>Upload Your Resume</h2>
+        <form action="/pred" method="post" enctype="multipart/form-data">
+            <input type="file" name="resume" accept=".pdf, .txt" required>
+            <input type="submit" value="Submit">
+        </form>
+    {% if message %}
+    <p class="text-center">{{ message }}</p>
+    {% endif %}
+
+    {% if predicted_category %}
+    <hr>
+    <p><b>Category:</b> {{ predicted_category }}</p>
+    <p><b>Recommended Job:</b> {{ recommended_job }}</p>
+    <hr>
+    <h2>Extracted Information</h2>
+    <p><b>Name:</b> {{ name }}</p>
+    <p><b>Phone No:</b> {{ phone }}</p>
+    <p><b>Email:</b> {{ email }}</p>
+    {% if extracted_skills %}
+    <p><b>Skills</b></p>
+    <ul>
+        {% for skill in extracted_skills %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No skills found.</p>
+    {% endif %}
+    {% if extracted_education %}
+    <h2>Education</h2>
+    <ul>
+        {% for edu in extracted_education %}
+        <li>{{ edu }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No education found.</p>
+    {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>
